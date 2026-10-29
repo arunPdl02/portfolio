@@ -2,6 +2,7 @@ import type { Line, Segment, Style } from './types'
 
 export const t = (text: string, style?: Style): Segment => ({ text, style })
 export const link = (text: string, href: string, download?: string): Segment => ({ text, href, download })
+export const copy = (text: string, value: string): Segment => ({ text, copy: value })
 export const cmd = (text: string, command: string, style?: Style): Segment => ({ text, command, style })
 
 export const line = (...parts: (Segment | string)[]): Line => ({

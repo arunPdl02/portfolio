@@ -1,4 +1,5 @@
 import { content } from '../content'
+import { mailtoUrl } from '../contact'
 import { ExtLink } from './ui'
 
 export default function Hero() {
@@ -15,7 +16,7 @@ export default function Hero() {
         <a className="btn btn-primary" href={resume.path} download={resume.filename}>
           Resume
         </a>
-        <ExtLink className="btn" href={`mailto:${profile.email}`}>
+        <ExtLink className="btn" href={mailtoUrl(profile.email)}>
           Email
         </ExtLink>
         <ExtLink className="btn" href={profile.github}>

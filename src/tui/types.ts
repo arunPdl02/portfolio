@@ -10,6 +10,8 @@ export interface Segment {
   download?: string
   /** Renders as a button that runs this command line when clicked. */
   command?: string
+  /** Renders as a button that copies this text to the clipboard. */
+  copy?: string
 }
 
 export interface Line {

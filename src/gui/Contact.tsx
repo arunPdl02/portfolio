@@ -1,4 +1,6 @@
 import { content } from '../content'
+import { gmailUrl, mailtoUrl } from '../contact'
+import CopyButton from './CopyButton'
 import { ExtLink, SectionHeading } from './ui'
 
 export function Contact() {
@@ -8,9 +10,13 @@ export function Contact() {
       <SectionHeading id="contact">contact</SectionHeading>
       <p className="contact-line">Open to 2027 co-op/internship opportunities. Say hi:</p>
       <div className="link-row">
-        <ExtLink className="btn btn-primary" href={`mailto:${profile.email}`}>
+        <ExtLink className="btn btn-primary" href={mailtoUrl(profile.email)}>
           {profile.email}
         </ExtLink>
+        <ExtLink className="btn" href={gmailUrl(profile.email)}>
+          Open in Gmail ↗
+        </ExtLink>
+        <CopyButton text={profile.email} />
         <ExtLink className="btn" href={profile.github}>
           GitHub
         </ExtLink>

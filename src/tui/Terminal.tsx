@@ -10,6 +10,7 @@ import {
 } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { content } from '../content'
+import { copyText } from '../contact'
 import { useTheme } from '../theme/useTheme'
 import { bootLines, commands, findCommand, projectSlugs } from './commands'
 import { complete } from './complete'
@@ -28,8 +29,26 @@ const promptSegments = (): Segment[] => [
 const prefersReducedMotion = () =>
   typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+function CopySeg({ text, value }: { text: string; value: string }) {
+  const [label, setLabel] = useState(text)
+  const timer = useRef<number | undefined>(undefined)
+  useEffect(() => () => window.clearTimeout(timer.current), [])
+  const onClick = async () => {
+    document.getElementById('tui-input')?.focus()
+    setLabel((await copyText(value)) ? '[ copied ✓ ]' : '[ copy failed ]')
+    window.clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => setLabel(text), 2000)
+  }
+  return (
+    <button type="button" className="t-cmd t-cyan" onClick={onClick}>
+      {label}
+    </button>
+  )
+}
+
 function Seg({ seg, onCommand }: { seg: Segment; onCommand: (c: string) => void }) {
   const cls = seg.style ? `t-${seg.style}` : undefined
+  if (seg.copy) return <CopySeg text={seg.text} value={seg.copy} />
   if (seg.command) {
     const command = seg.command
     return (

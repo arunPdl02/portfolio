@@ -1,8 +1,9 @@
 import { BANNER_FULL, BANNER_SMALL } from '../banner'
 import { content, type Project } from '../content'
+import { gmailUrl, mailtoUrl } from '../contact'
 import { saveMode } from '../mode'
 import type { Theme } from '../theme/ThemeContext'
-import { bullet, blank, cmd, err, heading, labeled, line, link, t, delayed } from './out'
+import { bullet, blank, cmd, copy, err, heading, labeled, line, link, t, delayed } from './out'
 import type { Command, Line } from './types'
 
 const { profile, resume } = content
@@ -184,7 +185,8 @@ export const commands: Command[] = [
     name: 'contact',
     description: 'Email, GitHub and LinkedIn',
     run: () => [
-      line('  ', t('Email:    ', 'muted'), link(profile.email, `mailto:${profile.email}`)),
+      line('  ', t('Email:    ', 'muted'), link(profile.email, mailtoUrl(profile.email))),
+      line('  ', t('          ', 'muted'), link('[ Gmail ]', gmailUrl(profile.email)), ' ', copy('[ copy ]', profile.email)),
       line('  ', t('GitHub:   ', 'muted'), link(profile.github, profile.github)),
       line('  ', t('LinkedIn: ', 'muted'), link(profile.linkedin, profile.linkedin)),
     ],
@@ -257,7 +259,8 @@ export const commands: Command[] = [
         delayed(line('Linking resume.pdf... ', t('OK', 'ok')), 600),
         delayed(line(t('Permission granted ✔', 'ok')), 600),
         delayed(blank(), 100),
-        line('Send the offer to ', link(profile.email, `mailto:${profile.email}?subject=${encodeURIComponent("Let's talk")}`)),
+        line('Send the offer to ', link(profile.email, mailtoUrl(profile.email, "Let's talk"))),
+        line('No mail app? ', link('[ Gmail ]', gmailUrl(profile.email, "Let's talk")), ' ', copy('[ copy ]', profile.email)),
         blank(),
       ]
     },
