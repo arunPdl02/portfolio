@@ -1,0 +1,30 @@
+/* Dracula (dark, default) and Alucard (light), values from https://draculatheme.com/spec */
+:root {
+  color-scheme: dark;
+  --bg: #282a36;
+  --surface: #44475a; /* spec "Selection" */
+  --fg: #f8f8f2;
+  --comment: #6272a4;
+  --cyan: #8be9fd;
+  --green: #50fa7b;
+  --orange: #ffb86c;
+  --pink: #ff79c6;
+  --purple: #bd93f9;
+  --red: #ff5555;
+  --yellow: #f1fa8c;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #fffbeb;
+  --surface: #cfcfde;
+  --fg: #1f1f1f;
+  --comment: #6c664b;
+  --cyan: #036a96;
+  --green: #14710a;
+  --orange: #a34d14;
+  --pink: #a3144d;
+  --purple: #644ac9;
+  --red: #cb3a2a;
+  --yellow: #846e15;
+}
