@@ -1,0 +1,98 @@
+.landing {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3.5rem 1rem 2rem;
+  text-align: center;
+}
+
+.landing-theme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.landing-intro {
+  margin: 0;
+  max-width: 36rem;
+  color: var(--fg);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.landing-modes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.mode-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 10rem;
+  padding: 1.25rem 2rem;
+  border: 2px solid var(--purple);
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--purple);
+  font: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    transform 0.15s;
+}
+
+.mode-btn:hover,
+.mode-btn:focus-visible {
+  background: var(--purple);
+  color: var(--bg);
+}
+
+.mode-btn:hover {
+  transform: translateY(-2px);
+}
+
+.mode-key {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.landing-hint {
+  margin: 0;
+  color: var(--comment);
+  font-size: 0.85rem;
+}
+
+.landing-resume {
+  color: var(--cyan);
+  font-size: 0.95rem;
+}
+
+@media (pointer: coarse) {
+  .landing-hint {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .mode-btn {
+    min-width: 100%;
+  }
+
+  .landing-modes {
+    width: 100%;
+  }
+}
