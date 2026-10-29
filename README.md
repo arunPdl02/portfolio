@@ -1,18 +1,74 @@
 # arunpaudel.com
 
-Personal portfolio for Arun Paudel: a GUI and a TUI, both rendered from `src/content.ts`.
+Personal portfolio for Arun Paudel. Visitors pick a **GUI** (a normal scrollable page) or a **TUI** (an interactive terminal). Both render from one content file.
 
-> Work in progress. Full docs land in a later phase.
+Vite + React + TypeScript, plain CSS, no backend. Builds to a static `dist/`.
 
-## Development
+## Local development
 
 ```bash
 npm install
-npm run dev      # local dev server
-npm run build    # type-check + static build into dist/
+npm run dev       # dev server (http://localhost:5173)
+npm run build     # type-check + production build into dist/
 npm run lint
 ```
 
-## Deploying
+## Updating the resume
 
-Import the GitHub repo in Vercel (Vite is auto-detected). `vercel.json` rewrites all routes to `index.html` so `/gui` and `/tui` survive a refresh. Every push to `main` redeploys.
+Replace `public/resume.pdf` with your new file **using the same name**, then commit and push. It downloads as `Arun_Paudel_Resume.pdf`.
+
+## Updating content
+
+Edit `src/content.ts`. The GUI and the TUI both read from it, so one edit updates both. Search the file for `TODO` to find anything still missing.
+
+## Common changes
+
+**Add a toolbox item**
+1. Add `{ name: 'Rust', icon: 'SiRust' }` to `toolbox.items` in `src/content.ts`.
+2. Import `SiRust` from `react-icons/si` and add it to the map in `src/gui/toolIcons.ts`.
+
+Omit `icon` (or leave it out of the map) and the chip shows a small text badge instead, as Java does.
+
+**Add a TUI command**
+Add an object to the `commands` array in `src/tui/commands.ts`:
+
+```ts
+{
+  name: 'hello',
+  aliases: ['hi'],
+  description: 'Say hello',
+  run: (args, ctx) => [line('Hello, ', t('world', 'accent'))],
+}
+```
+
+`run` returns lines built with the helpers in `src/tui/out.ts` (`t` for styled text, `link` for links, `cmd` for clickable commands). It shows up in `help` and tab completion automatically. `ctx` gives access to `clear`, `setTheme`, `navigate` and `downloadResume`.
+
+**Add a GUI section**
+1. Create a component in `src/gui/` that reads from `content` and uses `SectionHeading` from `src/gui/ui.tsx`.
+2. Render it in `src/gui/Gui.tsx`.
+3. Add its id to the `SECTIONS` list in `src/gui/TopBar.tsx` if it should get a nav link.
+
+**Regenerate the social preview image**
+`public/og.png` is rendered from `scripts/og.svg`. Edit the SVG, then run `scripts/make-og.mjs` (the file header lists the one-off setup; Playwright is not a project dependency).
+
+## Deploying to Vercel
+
+1. Push this repo to GitHub.
+2. In Vercel, choose **Add New → Project** and import the repo. Vite is auto-detected (build `npm run build`, output `dist`).
+3. Deploy. Every push to `main` redeploys automatically.
+4. Under **Project → Settings → Domains**, add `arunpaudel.com` and follow the DNS instructions.
+
+`vercel.json` rewrites every path to `index.html` so refreshing `/gui` or `/tui` works.
+
+## Routes
+
+| Path | What |
+| --- | --- |
+| `/` | Interface selector (redirects to your saved choice) |
+| `/?choose` | Always shows the selector |
+| `/gui` | Scrollable portfolio |
+| `/tui` | Interactive terminal (`help` to start) |
+
+## Credits
+
+Theme: [Dracula & Alucard](https://draculatheme.com) by the Dracula Theme team. Brand icons from [Simple Icons](https://simpleicons.org) via `react-icons`.

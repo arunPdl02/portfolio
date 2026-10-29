@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <rect width="1200" height="630" fill="#282A36"/>
+  <rect x="60" y="60" width="1080" height="510" rx="18" fill="none" stroke="#44475A" stroke-width="2"/>
+  <line x1="60" y1="124" x2="1140" y2="124" stroke="#44475A" stroke-width="2"/>
+  <circle cx="100" cy="92" r="9" fill="#FF5555"/>
+  <circle cx="132" cy="92" r="9" fill="#F1FA8C"/>
+  <circle cx="164" cy="92" r="9" fill="#50FA7B"/>
+  <text x="600" y="99" text-anchor="middle" font-size="20" fill="#6272A4">guest@arunpaudel.com</text>
+
+  <text x="104" y="212" font-size="30" fill="#50FA7B">guest@arunpaudel.com<tspan fill="#F8F8F2">:</tspan><tspan fill="#8BE9FD">~</tspan><tspan fill="#FF79C6">$ </tspan><tspan fill="#F8F8F2">whoami</tspan></text>
+  <text x="104" y="334" font-size="108" font-weight="700" fill="#BD93F9">Arun Paudel</text>
+  <text x="104" y="402" font-size="46" fill="#FF79C6">Backend &amp; ML/AI Engineer</text>
+  <text x="104" y="466" font-size="28" fill="#F8F8F2">CS @ SFU · Seeking 2027 co-op/internships</text>
+  <text x="104" y="528" font-size="26" fill="#8BE9FD">arunpaudel.com</text>
+  <rect x="332" y="507" width="15" height="28" fill="#50FA7B"/>
+</svg>
