@@ -19,15 +19,9 @@ Replace `public/resume.pdf` with your new file **using the same name**, then com
 
 ## Updating content
 
-Edit `src/content.ts`. The GUI and the TUI both read from it, so one edit updates both. Search the file for `TODO` to find anything still missing.
+Edit `src/content.ts`. The GUI and the TUI both read from it, so one edit updates both. Email goes through Gmail compose / copy buttons rather than mail-app links, so it works without a desktop mail client. Search the file for `TODO` to find anything still missing.
 
 ## Common changes
-
-**Add a toolbox item**
-1. Add `{ name: 'Rust', icon: 'SiRust' }` to `toolbox.items` in `src/content.ts`.
-2. Import `SiRust` from `react-icons/si` and add it to the map in `src/gui/toolIcons.ts`.
-
-Omit `icon` (or leave it out of the map) and the chip shows a small text badge instead, as Java does.
 
 **Add a TUI command**
 Add an object to the `commands` array in `src/tui/commands.ts`:
@@ -44,7 +38,7 @@ Add an object to the `commands` array in `src/tui/commands.ts`:
 `run` returns lines built with the helpers in `src/tui/out.ts` (`t` for styled text, `link` for links, `cmd` for clickable commands). It shows up in `help` and tab completion automatically. `ctx` gives access to `clear`, `setTheme`, `navigate` and `downloadResume`.
 
 **Add a GUI section**
-1. Create a component in `src/gui/` that reads from `content` and uses `SectionHeading` from `src/gui/ui.tsx`.
+1. Add its copy to `content.sections` in `src/content.ts`, then create a component in `src/gui/` that reads from `content` and wraps itself in `Section` from `src/gui/ui.tsx`.
 2. Render it in `src/gui/Gui.tsx`.
 3. Add its id to the `SECTIONS` list in `src/gui/TopBar.tsx` if it should get a nav link.
 
@@ -71,4 +65,4 @@ Add an object to the `commands` array in `src/tui/commands.ts`:
 
 ## Credits
 
-Theme: [Dracula & Alucard](https://draculatheme.com) by the Dracula Theme team. Brand icons from [Simple Icons](https://simpleicons.org) via `react-icons`.
+Theme: [Dracula & Alucard](https://draculatheme.com) by the Dracula Theme team.

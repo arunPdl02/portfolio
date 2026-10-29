@@ -8,11 +8,12 @@ export interface Link {
 
 export interface Profile {
   name: string
-  headline: string
+  /** One-liner used on the landing page. */
   tagline: string
-  heroLine: string
-  summary: string
-  location: string
+  greeting: string
+  intro: string
+  /** The line under the hero intro: place · top tools · availability. */
+  metaLine: string
   email: string
   github: string
   linkedin: string
@@ -21,6 +22,11 @@ export interface Profile {
 export interface Resume {
   path: string
   filename: string
+}
+
+export interface SectionCopy {
+  title: string
+  subtitle: string
 }
 
 export interface Experience {
@@ -40,50 +46,45 @@ export interface Leadership {
   description: string
 }
 
-export interface Education {
-  school: string
-  location: string
-  degree: string
-  minor?: string
-  graduation: string
-}
-
 export interface Project {
   slug: string
   name: string
+  /** Hackathon / event name, shown as a small badge. */
   context?: string
   description: string
-  role?: string
   tech: string[]
   links: Link[]
 }
 
-export interface ToolboxItem {
-  name: string
-  /** react-icons/si export name, e.g. 'SiPython'. Omit for a text badge. */
-  icon?: string
+export interface ContactCopy {
+  eyebrow: string
+  heading: string
+  subtitle: string
+  reasonsTitle: string
+  reasons: string[]
 }
 
 export interface Content {
   profile: Profile
   resume: Resume
+  sections: { experience: SectionCopy; projects: SectionCopy; leadership: SectionCopy }
   experience: Experience[]
-  leadership: Leadership[]
-  education: Education[]
   featuredProjects: Project[]
   otherProjects: Project[]
-  toolbox: { subtitle: string; items: ToolboxItem[] }
+  leadership: Leadership[]
+  contact: ContactCopy
+  /** Shown after the `guest@arunpaudel.com:~$` prompt in the GUI footer. */
+  footerLine: string
 }
 
 export const content: Content = {
   profile: {
     name: 'Arun Paudel',
-    headline: 'Backend & ML/AI Engineer',
     tagline: 'Backend & ML/AI engineer · CS @ SFU · Seeking 2027 co-op/internships',
-    heroLine: '4th-year CS student at SFU seeking 2027 co-op/internships.',
-    summary:
-      '4th-year Computer Science student at Simon Fraser University (Minor in Statistics) who builds things end to end, with a focus on backend systems and ML/AI pipelines. Seeking co-op/internship roles for 2027.',
-    location: 'Burnaby, BC',
+    greeting: "Hey, I'm Arun.",
+    intro:
+      "I'm a 4th-year CS student at SFU who likes building backends and ML pipelines that people actually use, from campus event kiosks to phishing detection research. Outside of code I run residence events and help keep res life a good place to live.",
+    metaLine: 'Vancouver, BC · Python · Go · TypeScript · Open to 2027 co-op',
     email: 'mailarunpaudel@gmail.com',
     github: 'https://github.com/arunPdl02',
     linkedin: 'https://www.linkedin.com/in/arunPdl02',
@@ -91,17 +92,25 @@ export const content: Content = {
 
   resume: { path: '/resume.pdf', filename: 'Arun_Paudel_Resume.pdf' },
 
+  sections: {
+    experience: { title: 'experience', subtitle: "Where I've been shipping code lately." },
+    projects: {
+      title: 'projects',
+      subtitle: 'Mostly hackathon builds and things I made because I wanted them to exist.',
+    },
+    leadership: { title: 'leadership', subtitle: 'The part where I help make residence feel like home.' },
+  },
+
   experience: [
     {
       role: 'Backend Developer',
       org: 'SFU Computer Science Student Society (CSSS)',
-      location: 'Burnaby, BC',
-      dates: 'Apr 2026 to Present',
+      location: 'Vancouver, BC',
+      dates: 'Apr 2026 – Present',
       bullets: [
-        'Own the events section of the CSSS web backend, which serves both the sfucsss.org events page and the events kiosk in the CSSS Common Room.',
-        'Shipped a FastAPI and PostgreSQL events service for kiosks displaying upcoming campus events.',
-        'Refined implementations through GitHub pull request reviews with a senior developer to meet team standards.',
-        'Structured event schemas and reversible Alembic migrations in PostgreSQL to support safe rollbacks.',
+        'Own the events backend behind sfucsss.org and the CSSS Common Room kiosk.',
+        'Shipped a FastAPI + PostgreSQL events service with reversible Alembic migrations.',
+        'Iterate through PR reviews with a senior developer.',
       ],
       tech: ['Python', 'FastAPI', 'PostgreSQL', 'Alembic'],
       links: [
@@ -111,37 +120,15 @@ export const content: Content = {
     },
     {
       role: 'Capstone Research: PhishX & PhishForge',
-      org: 'Simon Fraser University',
-      location: 'SFU',
-      dates: 'Jan 2026 to Present',
+      org: 'SFU',
+      dates: 'Jan 2026 – Present',
       bullets: [
-        'Translated published phishing models into deployable Python pipelines under faculty supervision.',
-        'Optimized model inference by 2.2× while maintaining 97.85% F1 through benchmarking.',
-        'Accelerated inference with collaborators by 37× (48s to 1.3s per URL) via containers and model warmup.',
-        'Created an extensible evaluation harness to benchmark generated datasets and document results for researchers.',
-        'Devised a generative AI pipeline to produce benchmark data and document methods for fellow researchers.',
+        'Turned published phishing models into deployable Python pipelines.',
+        'Cut inference from 48s to 1.3s per URL (37×) with containers and model warmup, while keeping 97.85% F1.',
+        'Built an evaluation harness and a generative benchmark-data pipeline for other researchers.',
       ],
       tech: ['Python', 'SPARQL', 'ChromaDB', 'Ollama', 'HPC', 'Apptainer'],
       links: [],
-    },
-  ],
-
-  leadership: [
-    {
-      role: 'Area Coordinator',
-      org: 'SFU Residence and Housing',
-      dates: 'May 2026 to Present',
-      description: 'Coordinating a team of 9 Resident Advisors.',
-    },
-  ],
-
-  education: [
-    {
-      school: 'Simon Fraser University',
-      location: 'Burnaby, BC',
-      degree: 'Bachelor of Applied Sciences in Computer Science',
-      minor: 'Statistics',
-      graduation: 'December 2027',
     },
   ],
 
@@ -149,10 +136,9 @@ export const content: Content = {
     {
       slug: 'bleet',
       name: 'bLeet',
-      context: 'nwHacks 2026 · team of 4',
+      context: 'nwHacks 2026',
       description:
-        'LeetCode for 3D modeling in Blender: pick a problem on the web app, model it in Blender, and a custom add-on validates your vertices against the target with real-time green/red feedback and LLM-powered hints.',
-      role: 'Built the Next.js + MongoDB web app and API, and the integration between the Python Blender add-on and the Next.js server.',
+        'LeetCode for 3D modeling in Blender, with live green/red vertex feedback and LLM-powered hints. I built the Next.js + MongoDB web app, the API, and the integration with the Python Blender add-on.',
       tech: ['Next.js', 'MongoDB', 'Python', 'FastAPI', 'Blender', 'Ollama'],
       links: [
         { label: 'Code', url: 'https://github.com/arunPdl02/nwHacks' },
@@ -173,7 +159,7 @@ export const content: Content = {
       slug: 'easy-code',
       name: 'Easy Code',
       description:
-        'A sandboxed command-line coding agent that uses Gemini function calling to inspect, edit, and run code safely inside a bounded directory.',
+        'A sandboxed command-line coding agent that uses Gemini function calling to inspect, edit, and run code inside a bounded directory.',
       tech: ['Python', 'Gemini API'],
       links: [{ label: 'Code', url: 'https://github.com/arunPdl02/easy-code' }],
     },
@@ -181,7 +167,7 @@ export const content: Content = {
       slug: 'clash-of-typers',
       name: 'Clash of Typers',
       description:
-        'A real-time multiplayer typing game: race to break locks on a 5×5 grid, built on raw TCP sockets with a lobby and synchronized start.',
+        'A real-time multiplayer typing game: race to break locks on a 5×5 grid, built on raw TCP sockets.',
       tech: ['Python', 'TCP sockets'],
       links: [{ label: 'Code', url: 'https://github.com/arunPdl02/ClashOfTypers' }],
     },
@@ -198,39 +184,52 @@ export const content: Content = {
     {
       slug: 'web-generator',
       name: 'Web Generator',
-      description:
-        'A dependency-free static site generator in Python that converts Markdown to HTML via a template, with unit tests (built through the Boot.dev course).',
+      description: 'A dependency-free static site generator in Python: Markdown to HTML via a template.',
       tech: ['Python'],
       links: [{ label: 'Code', url: 'https://github.com/arunPdl02/web_generator' }],
     },
     {
       slug: 'cable-tv-erp',
       name: 'Cable TV ERP',
-      description:
-        'A full-stack ERP for cable TV operations (customers, billing, inventory, support tickets) with a RAG chatbot that answers questions about the business data.',
+      description: 'A full-stack ERP for cable TV operations, with a RAG chatbot over the business data.',
       tech: ['Python', 'Flask', 'MySQL', 'RAG'],
       links: [{ label: 'Code', url: 'https://github.com/arunPdl02/ERP-software' }],
     },
   ],
 
-  toolbox: {
+  leadership: [
+    {
+      role: 'VP Internal',
+      org: 'SFU Residence Hall Association',
+      dates: 'May 2025 – Present',
+      description:
+        'The student body that advocates for residents. I act as a bridge between residents and SFU Residence Management, plan events, maintain the RHA website, and hold office hours.',
+    },
+    {
+      role: 'Area Coordinator',
+      org: 'SFU Residence and Housing',
+      dates: 'May 2026 – Present',
+      description:
+        'As an international student, SFU Residence has been my home since first year. I started as a Community (Resident) Advisor in January 2024 and have been working to make residence life better ever since. As Area Coordinator, I support a team of 9 Community Advisors with conflict resolution, programming and resident engagement, and I plan large-scale residence events, bringing staff together and coordinating logistics across teams.',
+    },
+  ],
+
+  contact: {
+    eyebrow: 'CONTACT',
+    heading: "Let's grab a coffee.",
     subtitle:
-      'The stack I reach for to build backends, ML pipelines, and the occasional hackathon chaos.',
-    items: [
-      { name: 'Python', icon: 'SiPython' },
-      { name: 'Go', icon: 'SiGo' },
-      { name: 'TypeScript', icon: 'SiTypescript' },
-      { name: 'Java' }, // no Simple Icons glyph: renders a text badge
-      { name: 'C++', icon: 'SiCplusplus' },
-      { name: 'FastAPI', icon: 'SiFastapi' },
-      { name: 'PostgreSQL', icon: 'SiPostgresql' },
-      { name: 'Docker', icon: 'SiDocker' },
-      { name: 'React', icon: 'SiReact' },
-      { name: 'Next.js', icon: 'SiNextdotjs' },
-      { name: 'Ollama', icon: 'SiOllama' },
-      { name: 'scikit-learn', icon: 'SiScikitlearn' },
-      { name: 'Linux', icon: 'SiLinux' },
-      { name: 'Git', icon: 'SiGit' },
+      "Whether it's a project, a hackathon team, or a hobby you want company on, I'm always happy to chat. Bonus points if there's a bakery nearby.",
+    reasonsTitle: 'Good reasons to reach out',
+    reasons: [
+      'You need an excuse for coffee and baked goods (so do I)',
+      "You're building something and want a backend or ML person",
+      'You need a teammate for a hackathon',
+      'You want to nerd out about a hobby project',
     ],
   },
+
+  footerLine: 'exit · built with way too much coffee',
 }
+
+/** `https://github.com/x` -> `github.com/x` */
+export const displayUrl = (url: string): string => url.replace(/^https?:\/\/(www\.)?/, '')

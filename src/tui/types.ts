@@ -5,7 +5,7 @@ export type Style = 'accent' | 'muted' | 'ok' | 'err' | 'cyan' | 'pink' | 'orang
 export interface Segment {
   text: string
   style?: Style
-  /** Renders as a link (mailto:, http(s), or a site path). */
+  /** Renders as a link (http(s) or a site path). */
   href?: string
   download?: string
   /** Renders as a button that runs this command line when clicked. */
@@ -39,5 +39,5 @@ export interface Command {
   /** Shown in `help` instead of `name`, e.g. "project <name>". */
   usage?: string
   description: string
-  run: (args: string[], ctx: CommandContext) => Line[]
+  run: (args: string[], ctx: CommandContext) => Line[] | Promise<Line[]>
 }

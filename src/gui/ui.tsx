@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { Link } from '../content'
+import type { Link, SectionCopy } from '../content'
 
 export function ExtLink({ href, className, children }: { href: string; className?: string; children: ReactNode }) {
   const external = href.startsWith('http')
@@ -38,13 +38,22 @@ export function LinkButtons({ links }: { links: Link[] }) {
   )
 }
 
-export function SectionHeading({ id, children }: { id: string; children: ReactNode }) {
+/** A page section with a `> title` heading and a short friendly subtitle. */
+export function Section({ id, copy, children }: { id: string; copy: SectionCopy; children: ReactNode }) {
   return (
-    <h2 id={id} className="section-title">
-      <span className="prompt" aria-hidden="true">
-        &gt;
-      </span>{' '}
+    <section id={id} aria-labelledby={`${id}-title`}>
+      <h2 id={`${id}-title`} className="section-title">
+        <span className="prompt" aria-hidden="true">
+          &gt;
+        </span>{' '}
+        {copy.title}
+      </h2>
+      <p className="section-sub">{copy.subtitle}</p>
       {children}
-    </h2>
+    </section>
   )
+}
+
+export function Badge({ children }: { children: ReactNode }) {
+  return <span className="badge">{children}</span>
 }

@@ -5,10 +5,8 @@ import ThemeToggle from '../theme/ThemeToggle'
 
 const SECTIONS = [
   ['experience', 'Experience'],
-  ['leadership', 'Leadership'],
   ['projects', 'Projects'],
-  ['toolbox', 'Toolbox'],
-  ['education', 'Education'],
+  ['leadership', 'Leadership'],
   ['contact', 'Contact'],
 ] as const
 

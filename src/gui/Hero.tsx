@@ -1,24 +1,28 @@
 import { content } from '../content'
-import { mailtoUrl } from '../contact'
+import PromptText from '../PromptText'
 import { ExtLink } from './ui'
 
 export default function Hero() {
   const { profile, resume } = content
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <p className="label"># hello, world</p>
+      <p className="hero-prompt" aria-hidden="true">
+        <PromptText />
+        whoami
+        <span className="cursor" />
+      </p>
       <h1 id="hero-title" className="hero-name">
-        {profile.name}
+        {profile.greeting}
       </h1>
-      <p className="hero-headline">{profile.headline}</p>
-      <p className="hero-line">{profile.heroLine}</p>
+      <p className="hero-line">{profile.intro}</p>
+      <p className="hero-meta">{profile.metaLine}</p>
       <div className="link-row">
-        <a className="btn btn-primary" href={resume.path} download={resume.filename}>
+        <a className="btn btn-primary" href="#contact">
+          Say hi
+        </a>
+        <a className="btn" href={resume.path} download={resume.filename}>
           Resume
         </a>
-        <ExtLink className="btn" href={mailtoUrl(profile.email)}>
-          Email
-        </ExtLink>
         <ExtLink className="btn" href={profile.github}>
           GitHub
         </ExtLink>

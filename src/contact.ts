@@ -1,33 +1,40 @@
-// mailto: only works if the visitor has a default mail app, so offer fallbacks too.
+import { content } from './content'
 
-export const mailtoUrl = (email: string, subject?: string): string =>
-  `mailto:${email}${subject ? `?subject=${encodeURIComponent(subject)}` : ''}`
+// No mail-app links anywhere: they fail silently without a desktop mail client.
+// Visitors get Gmail compose in a new tab, or copy the address / a drafted note.
 
-export const gmailUrl = (email: string, subject?: string): string =>
-  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}${
-    subject ? `&su=${encodeURIComponent(subject)}` : ''
-  }`
+export interface Note {
+  to: string
+  subject: string
+  body: string
+}
 
-/** Copies text to the clipboard; resolves false if the browser refuses. */
+export function buildNote(input: { name: string; email: string; message: string }): Note {
+  const name = input.name.trim()
+  const email = input.email.trim()
+  const message = input.message.trim()
+  return {
+    to: content.profile.email,
+    subject: name ? `Hey Arun, it's ${name}` : 'Hey Arun!',
+    body: [message, email && `You can reach me at ${email}`].filter(Boolean).join('\n\n'),
+  }
+}
+
+export function gmailUrl({ to, subject, body }: { to: string; subject?: string; body?: string }): string {
+  const q = [`view=cm`, `fs=1`, `to=${encodeURIComponent(to)}`]
+  if (subject) q.push(`su=${encodeURIComponent(subject)}`)
+  if (body) q.push(`body=${encodeURIComponent(body)}`)
+  return `https://mail.google.com/mail/?${q.join('&')}`
+}
+
+export const noteAsText = ({ to, subject, body }: Note): string => `To: ${to}\nSubject: ${subject}\n\n${body}`
+
+/** Copies text via the Clipboard API; resolves false if the browser refuses. */
 export async function copyText(text: string): Promise<boolean> {
   try {
     await navigator.clipboard.writeText(text)
     return true
   } catch {
-    // Fall back to a hidden textarea for insecure contexts / older browsers.
-    const el = document.createElement('textarea')
-    el.value = text
-    el.setAttribute('readonly', '')
-    el.style.position = 'fixed'
-    el.style.opacity = '0'
-    document.body.appendChild(el)
-    el.select()
-    try {
-      return document.execCommand('copy')
-    } catch {
-      return false
-    } finally {
-      el.remove()
-    }
+    return false
   }
 }

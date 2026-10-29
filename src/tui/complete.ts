@@ -30,6 +30,8 @@ export function complete(input: string, commands: Command[], projectSlugs: strin
   const head = `${name}${space}`
   const argCandidates: Record<string, string[]> = {
     project: projectSlugs,
+    copy: ['email'],
+    contact: ['--copy'],
     theme: ['dark', 'light'],
     sudo: ['hire-arun'],
   }

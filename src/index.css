@@ -115,3 +115,36 @@ button {
     scroll-behavior: auto !important;
   }
 }
+
+/* Terminal-style text colours, shared by the TUI and the GUI's prompt lines */
+.t-accent {
+  color: var(--purple);
+}
+.t-muted {
+  color: var(--muted);
+}
+.t-ok {
+  color: var(--green);
+}
+.t-err {
+  color: var(--red);
+}
+.t-cyan {
+  color: var(--cyan);
+}
+.t-pink {
+  color: var(--pink);
+}
+.t-orange {
+  color: var(--orange);
+}
+.t-yellow {
+  color: var(--yellow);
+}
+.t-bold {
+  font-weight: 700;
+}
+.t-chip {
+  color: var(--cyan);
+  white-space: nowrap;
+}

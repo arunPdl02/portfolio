@@ -13,18 +13,13 @@ import { content } from '../content'
 import { copyText } from '../contact'
 import { useTheme } from '../theme/useTheme'
 import { bootLines, commands, findCommand, projectSlugs } from './commands'
+import PromptText from '../PromptText'
+import { promptSegments } from '../prompt'
 import { complete } from './complete'
 import { line, t, err } from './out'
 import type { CommandContext, Line, Segment } from './types'
 
 const QUICK_COMMANDS = ['help', 'projects', 'experience', 'toolbox', 'contact', 'resume', 'gui']
-
-const promptSegments = (): Segment[] => [
-  t('guest@arunpaudel.com', 'ok'),
-  t(':'),
-  t('~', 'cyan'),
-  t('$ ', 'pink'),
-]
 
 const prefersReducedMotion = () =>
   typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -189,7 +184,10 @@ export default function Terminal() {
       const [name, ...args] = input.split(/\s+/)
       const command = findCommand(name)
       const output = command ? command.run(args, ctx) : [err(`command not found: ${name}. Type 'help'.`)]
-      if (cleared) {
+      if (output instanceof Promise) {
+        push([echo])
+        void output.then(push)
+      } else if (cleared) {
         hardClear()
         push(output)
       } else {
@@ -320,11 +318,7 @@ export default function Terminal() {
           <Lines lines={lines} onCommand={runCommand} />
           <form className="tui-input-line" onSubmit={submit}>
             <label htmlFor="tui-input" className="tui-prompt">
-              {promptSegments().map((seg, i) => (
-                <span key={i} className={seg.style ? `t-${seg.style}` : undefined}>
-                  {seg.text}
-                </span>
-              ))}
+              <PromptText />
             </label>
             <input
               id="tui-input"

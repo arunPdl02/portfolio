@@ -1,10 +1,9 @@
 import { content } from '../content'
-import { LinkButtons, SectionHeading, Tags } from './ui'
+import { LinkButtons, Section, Tags } from './ui'
 
 export function Experience() {
   return (
-    <section aria-labelledby="experience">
-      <SectionHeading id="experience">experience</SectionHeading>
+    <Section id="experience" copy={content.sections.experience}>
       <div className="stack">
         {content.experience.map((e) => (
           <article key={e.role} className="card">
@@ -26,14 +25,13 @@ export function Experience() {
           </article>
         ))}
       </div>
-    </section>
+    </Section>
   )
 }
 
 export function Leadership() {
   return (
-    <section aria-labelledby="leadership">
-      <SectionHeading id="leadership">leadership</SectionHeading>
+    <Section id="leadership" copy={content.sections.leadership}>
       <div className="stack">
         {content.leadership.map((l) => (
           <article key={l.role} className="card">
@@ -46,6 +44,6 @@ export function Leadership() {
           </article>
         ))}
       </div>
-    </section>
+    </Section>
   )
 }

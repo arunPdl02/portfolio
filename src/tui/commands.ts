@@ -1,12 +1,12 @@
 import { BANNER_FULL, BANNER_SMALL } from '../banner'
-import { content, type Project } from '../content'
-import { gmailUrl, mailtoUrl } from '../contact'
+import { copyText, gmailUrl } from '../contact'
+import { content, displayUrl, type Project, type SectionCopy } from '../content'
 import { saveMode } from '../mode'
 import type { Theme } from '../theme/ThemeContext'
-import { bullet, blank, cmd, copy, err, heading, labeled, line, link, t, delayed } from './out'
+import { bullet, blank, cmd, copy, delayed, err, labeled, line, link, t } from './out'
 import type { Command, Line } from './types'
 
-const { profile, resume } = content
+const { profile, resume, contact } = content
 const allProjects: Project[] = [...content.featuredProjects, ...content.otherProjects]
 export const projectSlugs = allProjects.map((p) => p.slug)
 
@@ -21,6 +21,13 @@ function findProject(query: string): Project | undefined {
   return prefixed.length === 1 ? prefixed[0] : undefined
 }
 
+/** `> title` plus the friendly subtitle, mirroring the GUI section headings. */
+const sectionHead = (copy: SectionCopy): Line[] => [
+  line(t('> ', 'ok'), t(copy.title, 'bold')),
+  line(t(copy.subtitle, 'muted')),
+  blank(),
+]
+
 const linkLines = (links: { label: string; url: string }[]): Line[] =>
   links.map((l) => labeled(l.label, link(l.url, l.url)))
 
@@ -28,32 +35,56 @@ function projectDetail(p: Project): Line[] {
   return [
     line(t(p.name, 'accent'), p.context ? t(`  [${p.context}]`, 'orange') : ''),
     line(p.description),
-    ...(p.role ? [labeled('My role', p.role)] : []),
     labeled('Tech', t(p.tech.join(', '), 'cyan')),
     ...linkLines(p.links),
   ]
 }
 
-function projectList(): Line[] {
-  const width = Math.max(...projectSlugs.map((s) => s.length)) + 2
-  const row = (p: Project): Line => ({
-    segments: [
-      { text: '  ' },
-      cmd(p.slug, `project ${p.slug}`, 'cyan'),
-      { text: ' '.repeat(width - p.slug.length) },
-      { text: p.context ? `${p.name} · ${p.context}` : p.name },
-    ],
-    hang: width + 2,
-  })
+function projectsOutput(): Line[] {
+  const width = Math.max(...content.otherProjects.map((p) => p.slug.length)) + 2
   return [
-    heading('Featured'),
-    ...content.featuredProjects.map(row),
+    ...sectionHead(content.sections.projects),
+    ...content.featuredProjects.flatMap((p): Line[] => [
+      line(cmd(p.name, `project ${p.slug}`, 'accent'), p.context ? t(`  [${p.context}]`, 'orange') : ''),
+      { segments: [{ text: '  ' }, { text: p.description }], hang: 2 },
+      labeled('Tech', t(p.tech.join(', '), 'cyan')),
+      blank(),
+    ]),
+    line(t('$ ls ./more-projects', 'ok')),
+    ...content.otherProjects.map(
+      (p): Line => ({
+        segments: [
+          { text: '  ' },
+          cmd(p.slug, `project ${p.slug}`, 'cyan'),
+          { text: ' '.repeat(width - p.slug.length) + p.description },
+        ],
+        hang: width + 2,
+      }),
+    ),
     blank(),
-    heading('Other'),
-    ...content.otherProjects.map(row),
-    blank(),
-    line('Use ', t('project <name>', 'cyan'), ' for details, e.g. ', cmd('project bleet', 'project bleet', 'cyan')),
+    line('Use ', t('project <name>', 'cyan'), ' for links and details, e.g. ', cmd('project bleet', 'project bleet', 'cyan')),
   ]
+}
+
+function contactOutput(): Line[] {
+  return [
+    line(t(contact.eyebrow, 'muted')),
+    line(t(contact.heading, 'accent')),
+    line(t(contact.subtitle, 'muted')),
+    blank(),
+    line(t(contact.reasonsTitle, 'bold')),
+    ...contact.reasons.map((r): Line => ({ segments: [{ text: '  ' }, t('✓ ', 'ok'), { text: r }], hang: 4 })),
+    blank(),
+    line('  ', t('email:    ', 'muted'), profile.email, '  ', copy('[ copy ]', profile.email), ' ', link('[ Gmail ]', gmailUrl({ to: profile.email }))),
+    line('  ', t('github:   ', 'muted'), link(displayUrl(profile.github), profile.github)),
+    line('  ', t('linkedin: ', 'muted'), link(displayUrl(profile.linkedin), profile.linkedin)),
+    blank(),
+  ]
+}
+
+async function copyEmail(): Promise<Line[]> {
+  if (await copyText(profile.email)) return [line(t('✓ copied to clipboard', 'ok'))]
+  return [err("Couldn't copy automatically. Here's the address:"), line('  ', t(profile.email, 'cyan'))]
 }
 
 export function bootLines(narrow: boolean, touch: boolean): Line[] {
@@ -81,7 +112,7 @@ export const commands: Command[] = [
       // Two columns don't fit on a phone: stack the description under the name.
       if (window.matchMedia('(max-width: 639px)').matches) {
         return [
-          heading('Available commands:'),
+          line(t('Available commands:', 'accent')),
           ...rows.flatMap(({ c, label, text }) => [
             line('  ', cmd(label, c.name, 'cyan')),
             { segments: [t(`    ${text}`, 'muted')], hang: 4 },
@@ -89,7 +120,7 @@ export const commands: Command[] = [
         ]
       }
       return [
-        heading('Available commands:'),
+        line(t('Available commands:', 'accent')),
         ...rows.map(({ c, label, text }) => ({
           segments: [
             { text: '  ' },
@@ -103,21 +134,32 @@ export const commands: Command[] = [
   },
   {
     name: 'whoami',
-    description: 'A short bio',
+    description: 'A short intro',
     run: () => [
-      line(t(profile.name, 'accent'), ' · ', t(profile.headline, 'pink')),
-      line(t(profile.location, 'muted')),
+      line(t(profile.greeting, 'accent')),
       blank(),
-      line(profile.summary),
+      line(profile.intro),
       blank(),
-      line('Next: ', cmd('experience', 'experience', 'cyan'), ', ', cmd('projects', 'projects', 'cyan'), ', ', cmd('contact', 'contact', 'cyan')),
+      line(t(profile.metaLine, 'muted')),
+      blank(),
+      line(
+        'Next: ',
+        cmd('experience', 'experience', 'cyan'),
+        ', ',
+        cmd('projects', 'projects', 'cyan'),
+        ', ',
+        cmd('leadership', 'leadership', 'cyan'),
+        ', ',
+        cmd('contact', 'contact', 'cyan'),
+      ),
     ],
   },
   {
     name: 'experience',
     description: 'Work and research experience',
-    run: () =>
-      content.experience.flatMap((e): Line[] => [
+    run: () => [
+      ...sectionHead(content.sections.experience),
+      ...content.experience.flatMap((e): Line[] => [
         line(t(e.role, 'accent'), ' @ ', t(e.org, 'cyan')),
         line(t(`  ${e.dates}${e.location ? ` · ${e.location}` : ''}`, 'muted')),
         ...e.bullets.map(bullet),
@@ -125,29 +167,19 @@ export const commands: Command[] = [
         ...linkLines(e.links),
         blank(),
       ]),
-  },
-  {
-    name: 'leadership',
-    description: 'Leadership roles',
-    run: () =>
-      content.leadership.flatMap((l): Line[] => [
-        line(t(l.role, 'accent'), ' @ ', t(l.org, 'cyan')),
-        line(t(`  ${l.dates}`, 'muted')),
-        bullet(l.description),
-        blank(),
-      ]),
+    ],
   },
   {
     name: 'projects',
     description: 'Featured and other projects',
-    run: projectList,
+    run: projectsOutput,
   },
   {
     name: 'project',
     usage: 'project <name>',
     description: 'Details and links for one project',
     run: (args) => {
-      if (args.length === 0) return [err('usage: project <name>'), blank(), ...projectList()]
+      if (args.length === 0) return [err('usage: project <name>'), blank(), ...projectsOutput()]
       const p = findProject(args.join(' '))
       if (!p) {
         return [
@@ -159,37 +191,29 @@ export const commands: Command[] = [
     },
   },
   {
-    name: 'toolbox',
-    aliases: ['skills'],
-    description: 'Languages, frameworks and tools',
-    run: () => {
-      const chips = content.toolbox.items.flatMap((item, i) => [
-        ...(i > 0 ? [t(' ')] : []),
-        t(`[ ${item.name} ]`, 'chip'),
-      ])
-      return [line(t(content.toolbox.subtitle, 'muted')), blank(), line(...chips), blank()]
-    },
-  },
-  {
-    name: 'education',
-    description: 'Education',
-    run: () =>
-      content.education.flatMap((e): Line[] => [
-        line(t(e.school, 'accent'), t(` · ${e.location}`, 'muted')),
-        line(`  ${e.degree}${e.minor ? `, Minor in ${e.minor}` : ''}`),
-        labeled('Expected graduation', e.graduation),
+    name: 'leadership',
+    description: 'Leadership roles',
+    run: () => [
+      ...sectionHead(content.sections.leadership),
+      ...content.leadership.flatMap((l): Line[] => [
+        line(t(l.role, 'accent'), ' · ', t(l.org, 'cyan')),
+        line(t(`  ${l.dates}`, 'muted')),
+        { segments: [{ text: '  ' }, { text: l.description }], hang: 2 },
         blank(),
       ]),
+    ],
   },
   {
     name: 'contact',
-    description: 'Email, GitHub and LinkedIn',
-    run: () => [
-      line('  ', t('Email:    ', 'muted'), link(profile.email, mailtoUrl(profile.email))),
-      line('  ', t('          ', 'muted'), link('[ Gmail ]', gmailUrl(profile.email)), ' ', copy('[ copy ]', profile.email)),
-      line('  ', t('GitHub:   ', 'muted'), link(profile.github, profile.github)),
-      line('  ', t('LinkedIn: ', 'muted'), link(profile.linkedin, profile.linkedin)),
-    ],
+    usage: 'contact [--copy]',
+    description: 'Say hi: email, GitHub, LinkedIn',
+    run: (args) => (args.includes('--copy') ? copyEmail() : contactOutput()),
+  },
+  {
+    name: 'copy',
+    usage: 'copy email',
+    description: 'Copy my email address',
+    run: (args) => (args[0]?.toLowerCase() === 'email' ? copyEmail() : [err('usage: copy email')]),
   },
   {
     name: 'resume',
@@ -259,8 +283,8 @@ export const commands: Command[] = [
         delayed(line('Linking resume.pdf... ', t('OK', 'ok')), 600),
         delayed(line(t('Permission granted ✔', 'ok')), 600),
         delayed(blank(), 100),
-        line('Send the offer to ', link(profile.email, mailtoUrl(profile.email, "Let's talk"))),
-        line('No mail app? ', link('[ Gmail ]', gmailUrl(profile.email, "Let's talk")), ' ', copy('[ copy ]', profile.email)),
+        line('Send the offer to ', t(profile.email, 'cyan')),
+        line('  ', link('[ Open in Gmail ]', gmailUrl({ to: profile.email, subject: "Let's talk" })), ' ', copy('[ copy email ]', profile.email)),
         blank(),
       ]
     },
