@@ -1,0 +1,41 @@
+:root {
+  --bg: #282a36;
+  --fg: #f8f8f2;
+  --comment: #6272a4;
+  --purple: #bd93f9;
+  --cyan: #8be9fd;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+
+a {
+  color: var(--cyan);
+}
+
+.placeholder {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.placeholder h1 {
+  margin: 0;
+  color: var(--purple);
+}
+
+.placeholder p {
+  margin: 0;
+  color: var(--comment);
+}
