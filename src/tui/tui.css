@@ -1,0 +1,200 @@
+.tui {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.tui-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--surface);
+}
+
+.tui-title {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tui-bar-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tui-bar-actions .pill-btn {
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.tui-terminal {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tui-screen {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.75rem 1rem 1.5rem;
+  cursor: text;
+}
+
+.tui-inner {
+  max-width: 110ch;
+}
+
+.tui-line {
+  min-height: 1.5em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.tui-art {
+  min-height: 0;
+  line-height: 1.05;
+  white-space: pre;
+}
+
+.tui-input-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.tui-prompt {
+  flex: none;
+  white-space: pre;
+}
+
+.tui-input {
+  flex: 1 1 8ch;
+  min-width: 8ch;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  caret-color: var(--green);
+  font: inherit;
+}
+
+.tui-input:focus-visible {
+  outline: none;
+}
+
+.t-accent {
+  color: var(--purple);
+}
+.t-muted {
+  color: var(--muted);
+}
+.t-ok {
+  color: var(--green);
+}
+.t-err {
+  color: var(--red);
+}
+.t-cyan {
+  color: var(--cyan);
+}
+.t-pink {
+  color: var(--pink);
+}
+.t-orange {
+  color: var(--orange);
+}
+.t-yellow {
+  color: var(--yellow);
+}
+.t-bold {
+  font-weight: 700;
+}
+.t-chip {
+  color: var(--cyan);
+  white-space: nowrap;
+}
+
+.t-link {
+  color: var(--cyan);
+}
+
+.t-cmd {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cyan);
+  font: inherit;
+  text-align: left;
+  white-space: pre-wrap;
+  cursor: pointer;
+}
+
+.t-cmd:hover {
+  text-decoration: underline;
+}
+
+.tui-quick {
+  display: none;
+  flex: none;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--surface);
+  overflow-x: auto;
+}
+
+.quick-btn {
+  flex: none;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--purple);
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--purple);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.quick-btn:active {
+  background: var(--purple);
+  color: var(--bg);
+}
+
+@media (pointer: coarse) {
+  .tui {
+    font-size: 16px; /* 16px inputs stop iOS zooming on focus */
+  }
+
+  .tui-quick {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .tui-bar {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .tui-title {
+    display: none;
+  }
+
+  .tui-bar-actions {
+    margin-left: auto;
+  }
+
+  .tui-screen {
+    padding: 0.75rem;
+  }
+}

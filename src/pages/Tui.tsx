@@ -1,11 +1,3 @@
-import { Link } from 'react-router-dom'
+import Tui from '../tui/Tui'
 
-export default function Tui() {
-  return (
-    <main className="placeholder">
-      <h1>/tui</h1>
-      <p>Coming soon.</p>
-      <Link to="/?choose">← back</Link>
-    </main>
-  )
-}
+export default Tui
