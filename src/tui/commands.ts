@@ -77,6 +77,16 @@ export const commands: Command[] = [
         return { c, label, text: `${c.description}${alias}` }
       })
       const width = Math.max(...rows.map((r) => r.label.length)) + 2
+      // Two columns don't fit on a phone: stack the description under the name.
+      if (window.matchMedia('(max-width: 639px)').matches) {
+        return [
+          heading('Available commands:'),
+          ...rows.flatMap(({ c, label, text }) => [
+            line('  ', cmd(label, c.name, 'cyan')),
+            { segments: [t(`    ${text}`, 'muted')], hang: 4 },
+          ]),
+        ]
+      }
       return [
         heading('Available commands:'),
         ...rows.map(({ c, label, text }) => ({

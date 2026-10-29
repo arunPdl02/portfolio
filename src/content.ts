@@ -112,7 +112,7 @@ export const content: Content = {
     {
       role: 'Capstone Research: PhishX & PhishForge',
       org: 'Simon Fraser University',
-      // TODO: add location if wanted (not provided).
+      location: 'SFU',
       dates: 'Jan 2026 to Present',
       bullets: [
         'Translated published phishing models into deployable Python pipelines under faculty supervision.',
@@ -163,8 +163,7 @@ export const content: Content = {
     {
       slug: 'budgetbrawl',
       name: 'BudgetBrawl',
-      // TODO: replace with the hackathon name if you want it shown.
-      context: 'Hackathon project',
+      context: 'Mountain Madness 2026',
       description:
         "Turns your Google Calendar into spending predictions with Snowflake Cortex, then lets you bet friends you'll stay under budget.",
       tech: ['React', 'FastAPI', 'Snowflake Cortex', 'Google OAuth'],
