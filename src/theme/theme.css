@@ -12,6 +12,9 @@
   --purple: #bd93f9;
   --red: #ff5555;
   --yellow: #f1fa8c;
+  /* readable secondary text: --comment is too low-contrast for small text on dark */
+  --muted: color-mix(in srgb, var(--fg) 72%, var(--bg));
+  --card: color-mix(in srgb, var(--surface) 35%, var(--bg));
 }
 
 :root[data-theme='light'] {

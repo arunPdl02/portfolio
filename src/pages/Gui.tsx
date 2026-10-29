@@ -1,11 +1,3 @@
-import { Link } from 'react-router-dom'
+import Gui from '../gui/Gui'
 
-export default function Gui() {
-  return (
-    <main className="placeholder">
-      <h1>/gui</h1>
-      <p>Coming soon.</p>
-      <Link to="/?choose">← back</Link>
-    </main>
-  )
-}
+export default Gui
