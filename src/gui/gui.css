@@ -204,6 +204,10 @@ html:has(.gui) {
   white-space: pre;
 }
 
+.contact .cmd-head {
+  text-align: left;
+}
+
 .hero .cmd-head {
   margin-bottom: 0.25rem;
 }

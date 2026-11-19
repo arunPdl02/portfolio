@@ -1,4 +1,5 @@
 import { content } from '../content'
+import PromptText from '../PromptText'
 import { Badge, ExtLink, LinkButtons, Section, Tags } from './ui'
 
 export function Projects() {
@@ -19,7 +20,12 @@ export function Projects() {
       </div>
 
       <details className="more">
-        <summary>$ ls ./more-projects</summary>
+        <summary>
+          <span className="cmd-prompt">
+            <PromptText short path="~/projects" />
+          </span>
+          ./more-projects
+        </summary>
         <ul className="more-list">
           {content.otherProjects.map((p) => (
             <li key={p.slug} className="more-row">

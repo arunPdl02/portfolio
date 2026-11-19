@@ -160,7 +160,7 @@ export function Contact() {
       <div className="term-card">
         <div className="term-bar">
           <span className="term-title">
-            <PromptText path="~/contact" />
+            <PromptText short path="~/contact" />
             ./say-hi.sh
           </span>
           <span className="term-shell">bash</span>

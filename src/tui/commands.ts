@@ -50,7 +50,7 @@ function projectsOutput(): Line[] {
       labeled('Tech', t(p.tech.join(', '), 'cyan')),
       blank(),
     ]),
-    line(t('$ ls ./more-projects', 'ok')),
+    line(...shortPromptSegments('~/projects'), t('./more-projects')),
     ...content.otherProjects.map(
       (p): Line => ({
         segments: [
