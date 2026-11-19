@@ -9,18 +9,20 @@ export default function Tui() {
   const { resume } = content
   return (
     <div className="tui">
-      <header className="tui-bar">
-        <span className="tui-title">guest@arunpaudel.com</span>
-        <div className="tui-bar-actions">
-          <Link to="/gui" className="pill-btn">
-            <MonitorIcon className="inline-icon" />
-            GUI →
-          </Link>
-          <ThemeToggle className="pill-btn" />
-          <a className="pill-btn" href={resume.path} download={resume.filename}>
-            <DownloadIcon className="inline-icon" />
-            Resume
-          </a>
+      <header className="topbar">
+        <div className="topbar-inner">
+          <span className="topbar-title">guest@arunpaudel.com</span>
+          <div className="topbar-actions">
+            <Link to="/gui" className="pill-btn">
+              <MonitorIcon className="inline-icon" />
+              GUI →
+            </Link>
+            <ThemeToggle className="pill-btn" />
+            <a className="pill-btn" href={resume.path} download={resume.filename}>
+              <DownloadIcon className="inline-icon" />
+              Resume
+            </a>
+          </div>
         </div>
       </header>
       <Terminal />

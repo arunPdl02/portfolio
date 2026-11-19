@@ -10,34 +10,6 @@
   line-height: 1.5;
 }
 
-.tui-bar {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid var(--surface);
-}
-
-.tui-title {
-  overflow: hidden;
-  color: var(--muted);
-  font-size: 0.8rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.tui-bar-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.tui-bar-actions .pill-btn {
-  text-decoration: none;
-  white-space: nowrap;
-}
-
 .tui-terminal {
   flex: 1;
   min-height: 0;
@@ -154,18 +126,6 @@
 }
 
 @media (max-width: 480px) {
-  .tui-bar {
-    padding: 0.5rem 0.75rem;
-  }
-
-  .tui-title {
-    display: none;
-  }
-
-  .tui-bar-actions {
-    margin-left: auto;
-  }
-
   .tui-screen {
     padding: 0.75rem;
   }
