@@ -9,3 +9,6 @@ export const promptSegments = (path = '~'): Segment[] => [
   { text: path, style: 'cyan' },
   { text: '$ ', style: 'pink' },
 ]
+
+/** Short prompt for section headers (`:~$ experience`): the user part is dropped. */
+export const shortPromptSegments = (path = '~'): Segment[] => promptSegments(path).slice(1)

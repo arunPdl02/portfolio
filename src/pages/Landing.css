@@ -64,6 +64,17 @@
   transform: translateY(-2px);
 }
 
+.mode-icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.mode-caption {
+  font-size: 0.8rem;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
 .mode-key {
   font-size: 0.75rem;
   font-weight: 400;

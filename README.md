@@ -58,8 +58,7 @@ Add an object to the `commands` array in `src/tui/commands.ts`:
 
 | Path | What |
 | --- | --- |
-| `/` | Interface selector (redirects to your saved choice) |
-| `/?choose` | Always shows the selector |
+| `/` | Interface selector (always shown, so you can switch any time) |
 | `/gui` | Scrollable portfolio |
 | `/tui` | Interactive terminal (`help` to start) |
 

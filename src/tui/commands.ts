@@ -1,7 +1,7 @@
 import { BANNER_FULL, BANNER_SMALL } from '../banner'
 import { copyText, gmailUrl } from '../contact'
 import { content, displayUrl, type Project, type SectionCopy } from '../content'
-import { saveMode } from '../mode'
+import { shortPromptSegments } from '../prompt'
 import type { Theme } from '../theme/ThemeContext'
 import { bullet, blank, cmd, copy, delayed, err, labeled, line, link, t } from './out'
 import type { Command, Line } from './types'
@@ -23,7 +23,7 @@ function findProject(query: string): Project | undefined {
 
 /** `> title` plus the friendly subtitle, mirroring the GUI section headings. */
 const sectionHead = (copy: SectionCopy): Line[] => [
-  line(t('> ', 'ok'), t(copy.title, 'bold')),
+  line(...shortPromptSegments(), t(copy.title, 'bold')),
   line(t(copy.subtitle, 'muted')),
   blank(),
 ]
@@ -68,7 +68,7 @@ function projectsOutput(): Line[] {
 
 function contactOutput(): Line[] {
   return [
-    line(t(contact.eyebrow, 'muted')),
+    line(...shortPromptSegments(), t(contact.title, 'bold')),
     line(t(contact.heading, 'accent')),
     line(t(contact.subtitle, 'muted')),
     blank(),
@@ -242,7 +242,6 @@ export const commands: Command[] = [
     name: 'gui',
     description: 'Switch to the GUI version',
     run: (_args, ctx) => {
-      saveMode('gui')
       ctx.navigate('/gui')
       return [line('Switching to GUI...')]
     },

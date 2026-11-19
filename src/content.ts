@@ -57,7 +57,7 @@ export interface Project {
 }
 
 export interface ContactCopy {
-  eyebrow: string
+  title: string
   heading: string
   subtitle: string
   reasonsTitle: string
@@ -215,7 +215,7 @@ export const content: Content = {
   ],
 
   contact: {
-    eyebrow: 'CONTACT',
+    title: 'contact',
     heading: "Let's grab a coffee.",
     subtitle:
       "Whether it's a project, a hackathon team, or a hobby you want company on, I'm always happy to chat. Bonus points if there's a bakery nearby.",

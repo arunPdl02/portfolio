@@ -92,17 +92,25 @@ export default function Terminal() {
 
   const [lines, setLines] = useState<Line[]>([])
   const [value, setValue] = useState('')
+  // True while output is still printing or an async command is running.
+  // Starts true so the prompt never flashes before the welcome message.
+  const [busy, setBusy] = useState(true)
 
   const inputRef = useRef<HTMLInputElement>(null)
   const screenRef = useRef<HTMLDivElement>(null)
   const queue = useRef<Line[]>([])
   const timer = useRef<number | undefined>(undefined)
+  const asyncPending = useRef(0)
   const booted = useRef(false)
   const history = useRef<string[]>([])
   const historyIndex = useRef(-1)
   const draft = useRef('')
 
   const append = useCallback((added: Line[]) => setLines((prev) => [...prev, ...added]), [])
+
+  const settle = useCallback(() => {
+    setBusy(queue.current.length > 0 || timer.current !== undefined || asyncPending.current > 0)
+  }, [])
 
   // Reveal queued lines in order, honouring each line's delay.
   const pump = useCallback(() => {
@@ -125,9 +133,10 @@ export default function Terminal() {
       }
       if (batch.length > 0) append(batch)
       if (queue.current.length > 0) run()
+      else settle()
     }
     run()
-  }, [append])
+  }, [append, settle])
 
   const skipAll = useCallback(() => {
     if (timer.current !== undefined) {
@@ -135,11 +144,13 @@ export default function Terminal() {
       timer.current = undefined
     }
     if (queue.current.length > 0) append(queue.current.splice(0))
-  }, [append])
+    settle()
+  }, [append, settle])
 
   const push = useCallback(
     (added: Line[]) => {
       queue.current.push(...(prefersReducedMotion() ? added.map((l) => ({ ...l, delay: undefined })) : added))
+      setBusy(true)
       pump()
     },
     [pump],
@@ -152,7 +163,8 @@ export default function Terminal() {
       timer.current = undefined
     }
     setLines([])
-  }, [])
+    settle()
+  }, [settle])
 
   const execute = useCallback(
     (raw: string) => {
@@ -185,8 +197,12 @@ export default function Terminal() {
       const command = findCommand(name)
       const output = command ? command.run(args, ctx) : [err(`command not found: ${name}. Type 'help'.`)]
       if (output instanceof Promise) {
+        asyncPending.current += 1
         push([echo])
-        void output.then(push)
+        void output.then((lines) => {
+          asyncPending.current -= 1
+          push(lines)
+        })
       } else if (cleared) {
         hardClear()
         push(output)
@@ -211,6 +227,11 @@ export default function Terminal() {
       }
     }
   }, [push, pump])
+
+  // Hand the prompt back to the user once output finishes.
+  useEffect(() => {
+    if (!busy) inputRef.current?.focus()
+  }, [busy])
 
   // Auto-scroll to the newest output.
   useEffect(() => {
@@ -316,7 +337,7 @@ export default function Terminal() {
       <div className="tui-screen" ref={screenRef} onClick={onScreenClick}>
         <div className="tui-inner">
           <Lines lines={lines} onCommand={runCommand} />
-          <form className="tui-input-line" onSubmit={submit}>
+          <form className="tui-input-line" onSubmit={submit} hidden={busy}>
             <label htmlFor="tui-input" className="tui-prompt">
               <PromptText />
             </label>

@@ -53,7 +53,8 @@ html:has(.gui) {
 }
 
 .topbar-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 1rem;
   max-width: 64rem;
@@ -71,7 +72,6 @@ html:has(.gui) {
 .topbar-sections {
   display: flex;
   gap: 1rem;
-  margin-left: auto;
   font-size: 0.85rem;
 }
 
@@ -86,6 +86,7 @@ html:has(.gui) {
 
 .topbar-actions {
   display: flex;
+  justify-self: end;
   gap: 0.5rem;
 }
 
@@ -103,12 +104,13 @@ html:has(.gui) {
 }
 
 @media (max-width: 920px) {
-  .topbar-sections {
-    display: none;
+  /* No centred nav on small screens: name on the left, actions on the right. */
+  .topbar-inner {
+    grid-template-columns: 1fr auto;
   }
 
-  .topbar-actions {
-    margin-left: auto;
+  .topbar-sections {
+    display: none;
   }
 }
 
@@ -132,31 +134,6 @@ html:has(.gui) {
   }
 }
 
-/* ---------- terminal hint ---------- */
-.hint {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin: 0.75rem 1rem 0;
-  padding: 0.6rem 0.9rem;
-  border: 1px solid var(--purple);
-  border-radius: 0.5rem;
-  background: var(--card);
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-}
-
-.hint-close {
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  font-size: 1.25rem;
-  line-height: 1;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-}
-
 /* ---------- layout ---------- */
 .gui-main {
   max-width: 64rem;
@@ -175,13 +152,6 @@ html:has(.gui) {
   color: var(--purple);
   font-size: clamp(2.25rem, 8vw, 3.75rem);
   line-height: 1.1;
-}
-
-.hero-prompt {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
-  overflow-wrap: anywhere;
 }
 
 .cursor {
@@ -219,9 +189,23 @@ html:has(.gui) {
   font-size: 0.85rem;
 }
 
-.section-title {
+/* One header style for every `:~$ <name>` line in the GUI: hero whoami and section titles. */
+.cmd-head {
   margin: 0;
+  color: var(--fg);
+  font-family: var(--font-mono);
   font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.cmd-prompt {
+  white-space: pre;
+}
+
+.hero .cmd-head {
+  margin-bottom: 0.25rem;
 }
 
 .section-sub {
@@ -426,16 +410,9 @@ html:has(.gui) {
   text-align: center;
 }
 
-.eyebrow {
-  margin: 0;
-  color: var(--green);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
-}
-
+/* Big tagline under the contact header */
 .contact-heading {
-  margin: 0.25rem 0 0;
+  margin: 0.5rem 0 0;
   color: var(--purple);
   font-family: var(--font-mono);
   font-size: clamp(1.75rem, 6vw, 2.75rem);

@@ -6,8 +6,8 @@ export default function Hero() {
   const { profile, resume } = content
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <p className="hero-prompt" aria-hidden="true">
-        <PromptText />
+      <p className="cmd-head hero-whoami" aria-hidden="true">
+        <PromptText short />
         whoami
         <span className="cursor" />
       </p>

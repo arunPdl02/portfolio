@@ -75,6 +75,10 @@
   align-items: baseline;
 }
 
+.tui-input-line[hidden] {
+  display: none;
+}
+
 .tui-prompt {
   flex: none;
   white-space: pre;

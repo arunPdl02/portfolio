@@ -136,10 +136,13 @@ export function Contact() {
   const { contact } = content
   return (
     <section id="contact" aria-labelledby="contact-title" className="contact">
-      <p className="eyebrow">{contact.eyebrow}</p>
-      <h2 id="contact-title" className="contact-heading">
-        {contact.heading}
+      <h2 id="contact-title" className="cmd-head">
+        <span className="cmd-prompt" aria-hidden="true">
+          <PromptText short />
+        </span>
+        {contact.title}
       </h2>
+      <h3 className="contact-heading">{contact.heading}</h3>
       <p className="contact-sub">{contact.subtitle}</p>
 
       <div className="term-card">

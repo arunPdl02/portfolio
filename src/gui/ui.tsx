@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { Link, SectionCopy } from '../content'
+import PromptText from '../PromptText'
 
 export function ExtLink({ href, className, children }: { href: string; className?: string; children: ReactNode }) {
   const external = href.startsWith('http')
@@ -42,10 +43,10 @@ export function LinkButtons({ links }: { links: Link[] }) {
 export function Section({ id, copy, children }: { id: string; copy: SectionCopy; children: ReactNode }) {
   return (
     <section id={id} aria-labelledby={`${id}-title`}>
-      <h2 id={`${id}-title`} className="section-title">
-        <span className="prompt" aria-hidden="true">
-          &gt;
-        </span>{' '}
+      <h2 id={`${id}-title`} className="cmd-head">
+        <span className="cmd-prompt" aria-hidden="true">
+          <PromptText short />
+        </span>
         {copy.title}
       </h2>
       <p className="section-sub">{copy.subtitle}</p>

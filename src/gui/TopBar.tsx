@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { content } from '../content'
-import { saveMode } from '../mode'
 import ThemeToggle from '../theme/ThemeToggle'
 
 const SECTIONS = [
@@ -29,7 +28,7 @@ export default function TopBar() {
           ))}
         </nav>
         <div className="topbar-actions">
-          <Link to="/tui" className="pill-btn" onClick={() => saveMode('tui')}>
+          <Link to="/tui" className="pill-btn">
             TUI →
           </Link>
           <ThemeToggle className="pill-btn" />

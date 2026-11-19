@@ -1,14 +1,16 @@
 import { useEffect, useRef } from 'react'
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Banner from '../Banner'
+import { MonitorIcon, TerminalIcon } from '../Icons'
 import { content } from '../content'
-import { getSavedMode, isFirstVisitOnPhone, saveMode, type Mode } from '../mode'
 import ThemeToggle from '../theme/ThemeToggle'
 import './Landing.css'
 
-const MODES: { mode: Mode; key: string }[] = [
-  { mode: 'gui', key: 'g' },
-  { mode: 'tui', key: 't' },
+type Mode = 'gui' | 'tui'
+
+const MODES: { mode: Mode; key: string; caption: string; Icon: typeof MonitorIcon }[] = [
+  { mode: 'gui', key: 'g', caption: 'A regular scrollable site', Icon: MonitorIcon },
+  { mode: 'tui', key: 't', caption: 'An interactive terminal', Icon: TerminalIcon },
 ]
 
 function ModeSelector() {
@@ -19,7 +21,6 @@ function ModeSelector() {
 
   useEffect(() => {
     const go = (mode: Mode) => {
-      saveMode(mode)
       navigate(`/${mode}`)
     }
     const focusButton = (i: number) => buttons.current[(i + MODES.length) % MODES.length]?.focus()
@@ -62,7 +63,7 @@ function ModeSelector() {
       <p className="landing-intro">{profile.tagline}</p>
 
       <div className="landing-modes" role="group" aria-label="Choose an interface">
-        {MODES.map(({ mode, key }, i) => (
+        {MODES.map(({ mode, key, caption, Icon }, i) => (
           <button
             key={mode}
             type="button"
@@ -73,13 +74,12 @@ function ModeSelector() {
             onFocus={() => {
               lastFocused.current = i
             }}
-            onClick={() => {
-              saveMode(mode)
-              navigate(`/${mode}`)
-            }}
+            onClick={() => navigate(`/${mode}`)}
             aria-keyshortcuts={key}
           >
-            [ {mode.toUpperCase()} ]
+            <Icon className="mode-icon" />
+            <span className="mode-label">[ {mode.toUpperCase()} ]</span>
+            <span className="mode-caption">{caption}</span>
             <span className="mode-key">press {key}</span>
           </button>
         ))}
@@ -93,12 +93,7 @@ function ModeSelector() {
   )
 }
 
+// Always shows the selector, so `/` and `/?choose` behave the same.
 export default function Landing() {
-  const [params] = useSearchParams()
-
-  if (!params.has('choose')) {
-    const target = getSavedMode() ?? (isFirstVisitOnPhone() ? 'gui' : null)
-    if (target) return <Navigate to={`/${target}`} replace />
-  }
   return <ModeSelector />
 }
