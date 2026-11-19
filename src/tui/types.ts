@@ -1,26 +1,20 @@
 import type { Theme } from '../theme/ThemeContext'
 
-export type Style = 'accent' | 'muted' | 'ok' | 'err' | 'cyan' | 'pink' | 'orange' | 'yellow' | 'bold' | 'chip'
+export type Style = 'accent' | 'muted' | 'ok' | 'err' | 'cyan' | 'pink' | 'orange' | 'bold'
 
 export interface Segment {
   text: string
   style?: Style
-  /** Renders as a link (http(s) or a site path). */
   href?: string
   download?: string
-  /** Renders as a button that runs this command line when clicked. */
   command?: string
-  /** Renders as a button that copies this text to the clipboard. */
   copy?: string
 }
 
 export interface Line {
   segments: Segment[]
-  /** ms to wait before this line appears (skipped on keypress / reduced motion). */
   delay?: number
-  /** Hanging indent in characters, so wrapped bullets stay aligned. */
   hang?: number
-  /** ASCII art: tight line height so glyph rows touch. */
   art?: boolean
 }
 
@@ -36,7 +30,6 @@ export interface CommandContext {
 export interface Command {
   name: string
   aliases?: string[]
-  /** Shown in `help` instead of `name`, e.g. "project <name>". */
   usage?: string
   description: string
   run: (args: string[], ctx: CommandContext) => Line[] | Promise<Line[]>

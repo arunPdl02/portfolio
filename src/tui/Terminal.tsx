@@ -112,7 +112,6 @@ export default function Terminal() {
     setBusy(queue.current.length > 0 || timer.current !== undefined || asyncPending.current > 0)
   }, [])
 
-  // Reveal queued lines in order, honouring each line's delay.
   const pump = useCallback(() => {
     const run = () => {
       if (timer.current !== undefined) return
@@ -213,7 +212,6 @@ export default function Terminal() {
     [theme, setTheme, navigate, push, hardClear],
   )
 
-  // Boot sequence. The guard keeps StrictMode's double-invoked effect from printing twice.
   useEffect(() => {
     if (!booted.current) {
       booted.current = true
@@ -228,18 +226,15 @@ export default function Terminal() {
     }
   }, [push, pump])
 
-  // Hand the prompt back to the user once output finishes.
   useEffect(() => {
     if (!busy) inputRef.current?.focus()
   }, [busy])
 
-  // Auto-scroll to the newest output.
   useEffect(() => {
     const el = screenRef.current
     if (el) el.scrollTop = el.scrollHeight
   }, [lines])
 
-  // Any keypress skips animations; typing anywhere focuses the prompt.
   useEffect(() => {
     const onKeyDown = () => {
       skipAll()
@@ -249,7 +244,6 @@ export default function Terminal() {
     return () => window.removeEventListener('keydown', onKeyDown, true)
   }, [skipAll])
 
-  // Keep the prompt above the on-screen keyboard on phones.
   useEffect(() => {
     const vv = window.visualViewport
     const root = screenRef.current?.parentElement

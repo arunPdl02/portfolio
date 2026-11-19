@@ -39,7 +39,6 @@ export function LinkButtons({ links }: { links: Link[] }) {
   )
 }
 
-/** A page section with a `> title` heading and a short friendly subtitle. */
 export function Section({ id, copy, children }: { id: string; copy: SectionCopy; children: ReactNode }) {
   return (
     <section id={id} aria-labelledby={`${id}-title`}>

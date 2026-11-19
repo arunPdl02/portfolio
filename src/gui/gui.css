@@ -42,7 +42,6 @@ html:has(.gui) {
   font-size: 0.85rem;
 }
 
-/* ---------- layout ---------- */
 .gui-main {
   max-width: 64rem;
   margin: 0 auto;
@@ -97,7 +96,6 @@ html:has(.gui) {
   font-size: 0.85rem;
 }
 
-/* One header style for every `:~$ <name>` line in the GUI: hero whoami and section titles. */
 .cmd-head {
   margin: 0;
   color: var(--fg);
@@ -130,7 +128,6 @@ html:has(.gui) {
   gap: 1rem;
 }
 
-/* ---------- cards ---------- */
 .card {
   padding: 1.25rem;
   border: 1px solid var(--surface);
@@ -170,10 +167,6 @@ html:has(.gui) {
   margin-bottom: 0.35rem;
 }
 
-.role {
-  color: var(--fg);
-}
-
 .badge {
   padding: 0.1rem 0.6rem;
   border: 1px solid var(--orange);
@@ -200,7 +193,6 @@ html:has(.gui) {
   font-size: 0.78rem;
 }
 
-/* ---------- buttons ---------- */
 .link-row {
   display: flex;
   flex-wrap: wrap;
@@ -244,7 +236,6 @@ html:has(.gui) {
   white-space: nowrap;
 }
 
-/* ---------- projects ---------- */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -317,12 +308,10 @@ html:has(.gui) {
   margin-left: auto;
 }
 
-/* ---------- contact ---------- */
 .contact {
   text-align: center;
 }
 
-/* Big tagline under the contact header */
 .contact-heading {
   margin: 0.5rem 0 0;
   color: var(--purple);
@@ -518,7 +507,6 @@ button.btn:hover {
   font-size: 0.82rem;
 }
 
-/* ---------- footer ---------- */
 .footer {
   max-width: 64rem;
   margin: 4rem auto 0;

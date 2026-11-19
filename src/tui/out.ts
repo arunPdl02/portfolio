@@ -10,7 +10,6 @@ export const line = (...parts: (Segment | string)[]): Line => ({
 })
 
 export const blank = (): Line => line('')
-export const heading = (text: string): Line => line(t(text, 'accent'))
 export const err = (text: string): Line => line(t(text, 'err'))
 
 export const bullet = (text: string): Line => ({

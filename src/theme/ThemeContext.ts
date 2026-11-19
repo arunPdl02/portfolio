@@ -4,7 +4,7 @@ export type Theme = 'dark' | 'light'
 
 export const THEME_KEY = 'theme'
 
-export interface ThemeContextValue {
+interface ThemeContextValue {
   theme: Theme
   setTheme: (theme: Theme) => void
   toggleTheme: () => void

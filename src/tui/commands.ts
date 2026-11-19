@@ -21,7 +21,6 @@ function findProject(query: string): Project | undefined {
   return prefixed.length === 1 ? prefixed[0] : undefined
 }
 
-/** `> title` plus the friendly subtitle, mirroring the GUI section headings. */
 const sectionHead = (copy: SectionCopy): Line[] => [
   line(...shortPromptSegments(), t(copy.title, 'bold')),
   line(t(copy.subtitle, 'muted')),

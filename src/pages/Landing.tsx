@@ -40,7 +40,6 @@ function ModeSelector() {
           focusButton(current < 0 ? MODES.length - 1 : current - 1)
           break
         case 'Enter':
-          // Focused buttons and links handle Enter natively; this covers lost focus.
           if (document.activeElement === document.body) go(MODES[lastFocused.current].mode)
           break
         default: {
@@ -91,7 +90,6 @@ function ModeSelector() {
   )
 }
 
-// Always shows the selector, so `/` and `/?choose` behave the same.
 export default function Landing() {
   return <ModeSelector />
 }

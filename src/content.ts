@@ -1,25 +1,20 @@
-// Single source of truth for the GUI and the TUI. Edit here; both update.
-// Search for TODO to find anything still missing.
-
 export interface Link {
   label: string
   url: string
 }
 
-export interface Profile {
+interface Profile {
   name: string
-  /** One-liner used on the landing page. */
   tagline: string
   greeting: string
   intro: string
-  /** The line under the hero intro: place · top tools · availability. */
   metaLine: string
   email: string
   github: string
   linkedin: string
 }
 
-export interface Resume {
+interface Resume {
   path: string
   filename: string
 }
@@ -49,14 +44,13 @@ export interface Leadership {
 export interface Project {
   slug: string
   name: string
-  /** Hackathon / event name, shown as a small badge. */
   context?: string
   description: string
   tech: string[]
   links: Link[]
 }
 
-export interface ContactCopy {
+interface ContactCopy {
   title: string
   heading: string
   subtitle: string
@@ -64,7 +58,7 @@ export interface ContactCopy {
   reasons: string[]
 }
 
-export interface Content {
+interface Content {
   profile: Profile
   resume: Resume
   sections: { experience: SectionCopy; projects: SectionCopy; leadership: SectionCopy }
@@ -73,7 +67,6 @@ export interface Content {
   otherProjects: Project[]
   leadership: Leadership[]
   contact: ContactCopy
-  /** Shown after the `guest@arunpaudel.com:~$` prompt in the GUI footer. */
   footerLine: string
 }
 
@@ -231,5 +224,4 @@ export const content: Content = {
   footerLine: 'exit · built with way too much coffee',
 }
 
-/** `https://github.com/x` -> `github.com/x` */
 export const displayUrl = (url: string): string => url.replace(/^https?:\/\/(www\.)?/, '')

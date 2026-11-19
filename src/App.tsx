@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Landing from './pages/Landing'
-import Gui from './pages/Gui'
-import Tui from './pages/Tui'
+import Gui from './gui/Gui'
+import Tui from './tui/Tui'
 
 export default function App() {
   return (

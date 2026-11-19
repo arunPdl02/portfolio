@@ -1,6 +1,6 @@
 import type { Command } from './types'
 
-export interface Completion {
+interface Completion {
   value: string
   options: string[]
 }
@@ -18,7 +18,6 @@ function pick(prefix: string, candidates: string[], head: string, trailing: stri
   return { value: head + commonPrefix(matches), options: matches }
 }
 
-/** Tab completion for command names and for `project <name>` / `theme` / `sudo` arguments. */
 export function complete(input: string, commands: Command[], projectSlugs: string[]): Completion {
   const match = /^(\S*)(\s+)(\S*)$/.exec(input)
   if (!match) {
