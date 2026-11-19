@@ -65,3 +65,5 @@ Add an object to the `commands` array in `src/tui/commands.ts`:
 ## Credits
 
 Theme: [Dracula & Alucard](https://draculatheme.com) by the Dracula Theme team.
+
+Icons: the GitHub mark is from [Simple Icons](https://simpleicons.org) (CC0). The LinkedIn mark is from [Font Awesome](https://fontawesome.com) (icons CC BY 4.0). Other icons are drawn in `src/Icons.tsx`.

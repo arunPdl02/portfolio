@@ -1,5 +1,6 @@
 import { content } from '../content'
 import PromptText from '../PromptText'
+import { GitHubIcon, LinkedInIcon, DownloadIcon } from '../Icons'
 import { ExtLink } from './ui'
 
 export default function Hero() {
@@ -21,12 +22,15 @@ export default function Hero() {
           Say hi
         </a>
         <a className="btn" href={resume.path} download={resume.filename}>
+          <DownloadIcon className="inline-icon" />
           Resume
         </a>
         <ExtLink className="btn" href={profile.github}>
+          <GitHubIcon className="inline-icon" />
           GitHub
         </ExtLink>
         <ExtLink className="btn" href={profile.linkedin}>
+          <LinkedInIcon className="inline-icon" />
           LinkedIn
         </ExtLink>
       </div>

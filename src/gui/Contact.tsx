@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { buildNote, copyText, gmailUrl, noteAsText } from '../contact'
 import { content, displayUrl } from '../content'
 import PromptText from '../PromptText'
+import { CheckIcon, GitHubIcon, LinkedInIcon, MailIcon } from '../Icons'
 
 const { profile } = content
 
@@ -31,12 +32,23 @@ function EmailRow() {
     }
   }
 
-  const label = state === 'copied' ? '✓ copied' : state === 'selected' ? 'selected, ⌘/Ctrl+C' : 'copy'
+  const label =
+    state === 'copied' ? (
+      <>
+        <CheckIcon className="inline-icon" />
+        copied
+      </>
+    ) : state === 'selected' ? (
+      'selected, ⌘/Ctrl+C'
+    ) : (
+      'copy'
+    )
 
   return (
     <li className="contact-row">
       <span className="contact-key">email</span>
       <span className="contact-val">
+        <MailIcon className="inline-icon" aria-hidden="true" />
         <span ref={textRef} className="email-text">
           {profile.email}
         </span>
@@ -171,6 +183,7 @@ export function Contact() {
               <li className="contact-row">
                 <span className="contact-key">github</span>
                 <span className="contact-val">
+                  <GitHubIcon className="inline-icon" />
                   <a href={profile.github} target="_blank" rel="noopener noreferrer">
                     {displayUrl(profile.github)}
                   </a>
@@ -179,6 +192,7 @@ export function Contact() {
               <li className="contact-row">
                 <span className="contact-key">linkedin</span>
                 <span className="contact-val">
+                  <LinkedInIcon className="inline-icon" />
                   <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
                     {displayUrl(profile.linkedin)}
                   </a>

@@ -149,10 +149,17 @@ button {
   white-space: nowrap;
 }
 
-/* Small view icon inside the TUI/GUI switch pills */
-.pill-icon {
+/* Small icon placed inline with text: pills, buttons, contact rows */
+.inline-icon {
   width: 1em;
   height: 1em;
   margin-right: 0.35em;
   vertical-align: -0.15em;
+}
+
+/* Phones: the theme toggle shows its icon only, so the top bar fits at 360px */
+@media (max-width: 480px) {
+  .toggle-label {
+    display: none;
+  }
 }
