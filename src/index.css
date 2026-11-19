@@ -176,12 +176,11 @@ button {
 
 .topbar-inner {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  /* Equal side columns keep the centre nav exactly in the middle */
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 1rem;
-  max-width: 64rem;
-  margin: 0 auto;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1.5rem;
 }
 
 .topbar-name {
@@ -208,7 +207,7 @@ button {
 
 .topbar-actions {
   display: flex;
-  grid-column: -1; /* always the last column, even when the centre nav is empty (TUI) */
+  grid-column: -2 / -1; /* always the last real column, even when the centre nav is empty (TUI) */
   justify-self: end;
   gap: 0.5rem;
 }
@@ -229,7 +228,7 @@ button {
 @media (max-width: 920px) {
   /* No centred nav on small screens: name on the left, actions on the right. */
   .topbar-inner {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
   .topbar-sections {
