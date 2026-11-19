@@ -25,8 +25,6 @@ function ModeSelector() {
     }
     const focusButton = (i: number) => buttons.current[(i + MODES.length) % MODES.length]?.focus()
 
-    buttons.current[0]?.focus()
-
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey) return
       const current = buttons.current.findIndex((b) => b === document.activeElement)
