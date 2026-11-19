@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { content } from '../content'
+import { TerminalIcon } from '../Icons'
 import ThemeToggle from '../theme/ThemeToggle'
 
 const SECTIONS = [
@@ -29,6 +30,7 @@ export default function TopBar() {
         </nav>
         <div className="topbar-actions">
           <Link to="/tui" className="pill-btn">
+            <TerminalIcon className="pill-icon" />
             TUI →
           </Link>
           <ThemeToggle className="pill-btn" />
